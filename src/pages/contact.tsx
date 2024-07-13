@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Title from "../components/title";
-import { COLORS, EMAIL_KEYS } from "../constants/constant";
+import { COLORS } from "../constants/constant";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
+// import emailjs from "@emailjs/browser";
 function Contact() {
   const [sender, setSender] = useState({
     name: "",
@@ -23,11 +23,11 @@ function Contact() {
   };
   const handleSendMail = async () => {
     setResponseState({ ...responseState, isLoading: true });
-    const templateParams = {
-      to_name: "Ikram",
-      from_name: sender.name,
-      message: sender,
-    };
+    // const templateParams = {
+    //   to_name: "Ikram",
+    //   from_name: sender.name,
+    //   message: sender,
+    // };
     // @ts-ignore
     document.getElementById("my_modal_1").showModal();
     // setResponseState({

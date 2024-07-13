@@ -128,7 +128,7 @@ function Home() {
               <img src="/pro-nobg.png" />
             </motion.div>
             <div className="flex gap-5 justify-center">
-              {[1, 1, 1, 1, 1].map((item, idx) => (
+              {[1, 1, 1, 1, 1].map((_, idx) => (
                 <motion.div
                   initial={{ y: idx % 2 === 0 ? -50 : -25, opacity: 0 }}
                   animate={{ y: idx % 2 === 0 ? 10 : 0, opacity: 1 }}
