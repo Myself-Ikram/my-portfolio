@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Title from "../components/title";
-import { COLORS } from "../constants/constant";
+import { COLORS, EMAIL_KEYS } from "../constants/constant";
 import { motion } from "framer-motion";
-// import emailjs from "@emailjs/browser";
+import emailjs from "@emailjs/browser";
+import { IoIosCall } from "react-icons/io";
+
 function Contact() {
   const [sender, setSender] = useState({
     name: "",
@@ -23,46 +25,50 @@ function Contact() {
   };
   const handleSendMail = async () => {
     setResponseState({ ...responseState, isLoading: true });
-    // const templateParams = {
-    //   to_name: "Ikram",
-    //   from_name: sender.name,
-    //   message: sender,
-    // };
+    const templateParams = {
+      to_name: "Ikram",
+      from_name: sender.name,
+      message: sender,
+    };
+    await emailjs
+      .send(
+        EMAIL_KEYS.SERVICE_KEY,
+        EMAIL_KEYS.TEMPLATE_KEY,
+        templateParams,
+        EMAIL_KEYS.API_KEY
+      )
+      .then(() => {
+        setResponseState({
+          isLoading: false,
+          success: true,
+          title: "Success",
+          desc: "Thank you for your email. I have received it and will be in touch shortly!",
+        });
+
+        setSender({
+          name: "",
+          type: "",
+          contact: "",
+        });
+      })
+      .catch(() => {
+        setResponseState({
+          isLoading: false,
+          success: false,
+          title: "Try Again",
+          desc: "There was a problem while sending the mail. Please try to send the mail again!",
+        });
+      });
     // @ts-ignore
     document.getElementById("my_modal_1").showModal();
-    // setResponseState({
-    //   isLoading: false,
-    //   success: true,
-    //   title: "Success",
-    //   desc: "Thank you for your email. I have received it and will be in touch shortly!",
-    // });
-    setResponseState({
-      isLoading: false,
-      success: false,
-      title: "Try Again",
-      desc: "There was a problem while sending the mail. Please try to send the mail again!",
-    });
+  };
+  // Dailer
+  const handleClick = () => {
+    // Construct the phone number URI
+    const dialUrl = `tel:9110543857`;
 
-    // href="#my_modal_8"
-    // document.getElementById('#my_modal_8').showModal()
-    // await emailjs
-    //   .send(
-    //     EMAIL_KEYS.SERVICE_KEY,
-    //     EMAIL_KEYS.TEMPLATE_KEY,
-    //     templateParams,
-    //     EMAIL_KEYS.API_KEY
-    //   )
-    //   .then(() => {
-    //     alert("Done");
-    //     setSender({
-    //       name: "",
-    //       type: "",
-    //       contact: "",
-    //     });
-    //   })
-    //   .catch(() => {
-    //     alert("Try Again!");
-    //   });
+    // Open the URI in a new window to simulate dialer behavior
+    window.open(dialUrl, "_blank");
   };
   return (
     <div id="contact" className="h-full flex flex-col gap-1 p-2 text-white">
@@ -115,25 +121,44 @@ function Contact() {
             />
           </div>
         </div>
-        {/* Submit */}
-        {sender.name &&
-          (sender.type === "hire" || sender.type === "collab") &&
-          sender.contact && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 2 }}
-              className="flex justify-end pr-10"
+        {/* footer */}
+        <div className="flex items-center justify-around mt-3">
+          {/* Call Now */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+            className="flex justify-end pr-10"
+          >
+            <button
+              style={{ backgroundColor: COLORS.RED }}
+              className="btn text-white"
+              onClick={handleClick}
             >
-              <button
-                style={{ backgroundColor: COLORS.GREEN }}
-                className="btn text-white"
-                onClick={handleSendMail}
+              <IoIosCall size={30} />
+              Call Now
+            </button>
+          </motion.div>
+          {/* Submit */}
+          {sender.name &&
+            (sender.type === "hire" || sender.type === "collab") &&
+            sender.contact && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 2 }}
+                className="flex justify-end pr-10"
               >
-                Submit
-              </button>
-            </motion.div>
-          )}
+                <button
+                  style={{ backgroundColor: COLORS.GREEN }}
+                  className="btn text-white"
+                  onClick={handleSendMail}
+                >
+                  Submit
+                </button>
+              </motion.div>
+            )}
+        </div>
       </div>
       {/* Modal */}
       <dialog id="my_modal_1" className="modal text-black">
