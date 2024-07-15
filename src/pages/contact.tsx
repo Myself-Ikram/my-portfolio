@@ -135,29 +135,36 @@ function Contact() {
               className="btn text-white"
               onClick={handleClick}
             >
-              <IoIosCall size={30} />
-              Call Now
+              <IoIosCall size={20} />
+              Call
             </button>
           </motion.div>
           {/* Submit */}
-          {sender.name &&
+          {/* {sender.name &&
             (sender.type === "hire" || sender.type === "collab") &&
-            sender.contact && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 2 }}
-                className="flex justify-end pr-10"
-              >
-                <button
-                  style={{ backgroundColor: COLORS.GREEN }}
-                  className="btn text-white"
-                  onClick={handleSendMail}
-                >
-                  Submit
-                </button>
-              </motion.div>
-            )}
+            sender.contact && ( */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+            className="flex justify-end pr-10"
+          >
+            <button
+              disabled={
+                sender.name &&
+                (sender.type === "hire" || sender.type === "collab") &&
+                sender.contact
+                  ? false
+                  : true
+              }
+              style={{ backgroundColor: COLORS.GREEN }}
+              className="btn text-white"
+              onClick={handleSendMail}
+            >
+              Submit
+            </button>
+          </motion.div>
+          {/* )} */}
         </div>
       </div>
       {/* Modal */}

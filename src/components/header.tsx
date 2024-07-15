@@ -28,7 +28,7 @@ function Header() {
   return (
     <div
       style={{ backgroundColor: COLORS.BLUE }}
-      className="h-1/6 flex items-center"
+      className=" xs:h-2/6 md:h-1/6 flex items-center rounded-lg"
     >
       {width >= 768 ? <LargerHeader /> : <SmallHeader />}
     </div>
